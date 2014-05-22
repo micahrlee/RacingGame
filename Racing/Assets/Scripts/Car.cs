@@ -35,12 +35,8 @@ public class Car : MonoBehaviour {
 			else	
 				Speed += ACCEL;
 		}
-		else{
-			if(Speed > 0f)
-				Speed -= ACCEL * 2;
-			else
+		else
 				Speed = 0f;
-		}
 		transform.position += (Input.GetAxis("Vertical") * transform.up *(Speed * Time.smoothDeltaTime)) * NitroSpeed;
 		float angle = Input.GetAxis ("Horizontal") * (RotateAngle * Time.smoothDeltaTime);
 		transform.Rotate (transform.forward, -angle);

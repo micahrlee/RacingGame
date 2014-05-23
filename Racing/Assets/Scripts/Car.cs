@@ -2,13 +2,19 @@
 using System.Collections;
 
 public class Car : MonoBehaviour {
-	public const float TOP_SPEED = 3f;
-	public const float ACCEL = .01f;
+	public const float TOP_SPEED = 2f;
+	public const float ACCEL = .005f;
+	public const float NITRO_TIME = 2f;
+	public const float NITRO_MULT = 2f;
+	public const float NITRO_DELAY = 20f;
 	public float Speed = 0f;
-	public float RotateAngle = 250f;
+	public float RotateAngle = 150f;
 	public float NitroSpeed = 1f;
-	public float NitroTime = 5f;
-	private float startTime = -1f;
+	public float currentNitro = 0f;
+	public string curCar = "";
+	
+	private bool nitro = false;
+	private float lastNitro = -30f;
 
 	void Start(){
 	}
@@ -16,16 +22,35 @@ public class Car : MonoBehaviour {
 	void Update(){
 		UpdateNitro ();
 		UpdateMovement ();
+		printTimeLimit ();
 	}
 
 	void UpdateNitro(){
-		if(Input.GetKey(KeyCode.Space) && NitroTime > 0f){
-			startTime = Time.time;
-			NitroSpeed = 2f;
-			NitroTime -= (Time.time - startTime);
+		#region If Boost Pressed
+		if ((Time.realtimeSinceStartup - lastNitro) > NITRO_DELAY) {
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				nitro = true;
+				SpriteRenderer r = GetComponent<SpriteRenderer> ();
+				if (r != null) {
+					Sprite s = Resources.Load ("Textures/" + curCar +  "Boost", typeof(Sprite)) as Sprite;
+					r.sprite = s;
+				}
+				currentNitro = Time.realtimeSinceStartup;
+				lastNitro = Time.realtimeSinceStartup + NITRO_TIME;
+				NitroSpeed = 1.5f;
+			} 
 		}
-		else
+		#endregion
+		#region If Boost not active
+		else if(nitro && (Time.realtimeSinceStartup - currentNitro) > NITRO_TIME){
+			SpriteRenderer r = GetComponent<SpriteRenderer> ();
+			if (r != null) {
+				Sprite s = Resources.Load ("Textures/" + curCar, typeof(Sprite)) as Sprite;
+				r.sprite = s;
+			}
 			NitroSpeed = 1f;
+		}
+		#endregion
 	}
 
 	void UpdateMovement(){
@@ -40,5 +65,19 @@ public class Car : MonoBehaviour {
 		transform.position += (Input.GetAxis("Vertical") * transform.up *(Speed * Time.smoothDeltaTime)) * NitroSpeed;
 		float angle = Input.GetAxis ("Horizontal") * (RotateAngle * Time.smoothDeltaTime);
 		transform.Rotate (transform.forward, -angle);
+	}
+
+	private void printTimeLimit(){
+		float time = NITRO_DELAY - (Time.realtimeSinceStartup - lastNitro);
+		if (time < 0f)
+			time = 0f;
+		GameObject echo = GameObject.Find ("Boost");
+		GUIText g = echo.GetComponent<GUIText> ();
+		if (time == 0f) 
+			g.text = "Ready!";
+		else if(time > NITRO_DELAY)
+			g.text = "BOOST";
+		else
+			g.text = "" + (int)time;
 	}
 }

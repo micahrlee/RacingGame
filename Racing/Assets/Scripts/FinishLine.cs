@@ -5,12 +5,12 @@ public class FinishLine : MonoBehaviour {
 	public bool finish = false;
 	// Use this for initialization
 	void Start () {
-	
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 
 	void OnGUI(){
@@ -19,12 +19,16 @@ public class FinishLine : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		finish = true;
+		if(other.gameObject.tag == "Car"){
+			Car car = other.GetComponent<Car>();
+			car.time = false;
+			car.finished = true;
+			car.Place = GameObject.Find ("LevelManager").GetComponent<LevelManager>().CarsPassed++ + 1;
+			finish = true;
+		}
 	}
 
 	void PrintFinish(){
-		GUILayout.BeginArea (new Rect(Screen.width/2 - 250, Screen.height * .35f, 500, 500));
-		GUILayout.Label ("You're Winner!");
-		GUILayout.EndArea ();
+
 	}
 }

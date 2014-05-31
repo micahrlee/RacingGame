@@ -6,6 +6,8 @@ public class LevelManager : MonoBehaviour {
 	public float lastCount = 0f;
 	public int CountDown = 3;
 	public bool showCountDown = true;
+	private bool startTimer = false;
+	public int CarsPassed = 0;
 	// Use this for initialization
 	void Start () {
 		G.getInstance ().PauseMovement ();
@@ -15,11 +17,29 @@ public class LevelManager : MonoBehaviour {
 	void Update () {
 		if(showCountDown)
 			InCountDown ();
+
+		else{
+			if(startTimer){
+				StartTimer ();
+			}
+		}
+
+		if (CarsPassed == 2) {
+
+		}
+	}
+
+	void StartTimer(){
+		GameObject[] list = GameObject.FindGameObjectsWithTag ("Car");
+		foreach(GameObject car in list){
+			car.GetComponent<Car>().time = true;
+		}
+		startTimer = false;
 	}
 
 	#region CountDown
 	void InCountDown(){
-		if (CountDown > 0) {
+		if (CountDown > -1f) {
 			UpdateCountDown ();
 			lastCount += Time.deltaTime;
 			if(lastCount >= 1){
@@ -30,7 +50,7 @@ public class LevelManager : MonoBehaviour {
 		else{
 			GameObject echo = GameObject.Find ("CountDown");
 			echo.SetActive(false);
-			G.getInstance ().UnpauseMovement ();
+			startTimer = true;
 			showCountDown = false;
 		}
 	}
@@ -38,10 +58,12 @@ public class LevelManager : MonoBehaviour {
 	void UpdateCountDown(){
 		GameObject echo = GameObject.Find ("CountDown");
 		GUIText g = echo.GetComponent<GUIText> ();
-		if(CountDown != 0)
+		if(CountDown > 0)
 			g.text = "" + CountDown;
-		else
-			g.text = "GO";
+		else{
+			g.text = "GO!!!!!";
+			G.getInstance ().UnpauseMovement ();
+		}
 	}
 	#endregion
 }

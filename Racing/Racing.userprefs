@@ -1,12 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FinishLine.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Car.cs">
     <Files>
-      <File FileName="Assets\Scripts\Car.cs" Line="22" Column="23" />
-      <File FileName="Assets\Scripts\Opponent.cs" Line="11" Column="2" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="263" Column="24" />
-      <File FileName="Assets\Scripts\FinishLine.cs" Line="8" Column="3" />
-      <File FileName="Assets\Scripts\LevelManager.cs" Line="70" Column="1" />
+      <File FileName="Assets\Scripts\LevelManager.cs" Line="18" Column="37" />
+      <File FileName="Assets\Scripts\WinningScreen.cs" Line="5" Column="44" />
+      <File FileName="Assets\Scripts\BorderBehavior.cs" Line="12" Column="1" />
+      <File FileName="Assets\Scripts\Car.cs" Line="37" Column="74" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

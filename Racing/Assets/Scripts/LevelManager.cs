@@ -3,11 +3,16 @@ using System.Collections;
 using G = GameManager;
 
 public class LevelManager : MonoBehaviour {
+	int playersSpawned = 0;
+
 	public float lastCount = 0f;
 	public int CountDown = 3;
 	public bool showCountDown = true;
 	private bool startTimer = false;
 	public int CarsPassed = 0;
+
+	GameObject car = null;
+
 	// Use this for initialization
 	void Start () {
 		G.getInstance ().PauseMovement ();
@@ -25,7 +30,7 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		if (CarsPassed == 2) {
-
+			Application.LoadLevel ("RaceOver");
 		}
 	}
 

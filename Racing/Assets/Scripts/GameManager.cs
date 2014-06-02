@@ -15,6 +15,13 @@ public class GameManager : UnitySingleton<GameManager>
 	private const float updateInterval = 0.5f;
 	GUIText FPS = null;
 	#endregion
+
+	#region Game Stuff
+	public int first = 1;
+	public int second = 2;
+	public float firstTime;
+	public float secondTime;
+	#endregion
 	
 	#region Page
 	public enum Page{

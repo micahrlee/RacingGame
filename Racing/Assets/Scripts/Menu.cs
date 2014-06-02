@@ -7,7 +7,6 @@ public class Menu : MonoBehaviour {
 	private const string registeredName = "Racing Game for CSS 432";
 	public string gameName = "";
 
-	bool isRefreshing = false;
 	float refreshRequestLength = 3.5f;
 	HostData[] hostData;
 	Vector2 scrollPos;
@@ -200,7 +199,6 @@ public class Menu : MonoBehaviour {
 	public IEnumerator RefreshHostList(){
 		Debug.Log ("Refreshing...");
 		MasterServer.RequestHostList (registeredName);
-		float timeStarted = Time.time;
 		float endTime = Time.time + refreshRequestLength;
 
 		while(Time.time < endTime){

@@ -3,13 +3,13 @@ using System.Collections;
 using G = GameManager;
 
 public class Car : MonoBehaviour {
-	public const float TOP_SPEED = 2f;
-	public const float ACCEL = .005f;
+	public const float TOP_SPEED = 1.5f;
+	public const float ACCEL = .003f;
 //	public const float NITRO_TIME = 2f;
 //	public const float NITRO_MULT = 2f;
 //	public const float NITRO_DELAY = 20f;
 	public float Speed = 0f;
-	public float RotateAngle = 150f;
+	public float RotateAngle = 175f;
 //	public float NitroSpeed = 1f;
 //	public float currentNitro = 0f;
 //	private bool nitro = false;
@@ -20,9 +20,22 @@ public class Car : MonoBehaviour {
 	public bool time = false;
 	public bool finished = false;
 	public int Place = 0;
-	public int Player = 1;
+	public int Player = 2;
+
+	public GameObject opp = null;
 
 	void Start(){
+		//receive which player this car is
+		if(opp == null)
+			opp = Resources.Load ("Prefabs/Opponent") as GameObject;
+		if(Player == 1){
+			transform.position = new Vector3 (-0.1269732f, -0.1496694f, 0);
+			opp = (GameObject)Instantiate (opp, new Vector3 (0.1002542f, -0.1496694f, 0), Quaternion.identity);
+		}
+		else if(Player == 2){
+			transform.position = new Vector3 (0.1002542f, -0.1496694f, 0);
+			opp = (GameObject)Instantiate (opp, new Vector3 (-0.1269732f, -0.1496694f, 0), Quaternion.identity);
+		}
 	}
 
 	void Update(){
@@ -38,6 +51,12 @@ public class Car : MonoBehaviour {
 		}
 
 		showTime ();
+	}
+
+	void OnTriggerEnter2D(Collider2D other){
+		if(other.gameObject.tag == "Border"){
+			currentTime += 1f;
+		}
 	}
 
 //	void UpdateNitro(){
@@ -69,7 +88,12 @@ public class Car : MonoBehaviour {
 //	}
 
 	void UpdateMovement(){
-		if(Input.GetAxis ("Vertical") != 0){
+		if (Input.GetKey (KeyCode.Space)) {
+			Speed -= .003f;
+			if(Speed < 0)
+				Speed = 0f;
+		}
+		else if(Input.GetAxis ("Vertical") != 0){
 			if(Speed > TOP_SPEED)
 				Speed = TOP_SPEED;
 			else	
